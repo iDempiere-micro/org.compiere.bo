@@ -27,6 +27,7 @@ import org.compiere.crm.MBPartner;
 import org.compiere.crm.MBPartnerLocation;
 import org.compiere.crm.MLocation;
 import org.compiere.crm.MUser;
+import org.compiere.model.I_C_BPartner;
 import org.compiere.model.I_C_ContactActivity;
 import org.compiere.orm.PO;
 import org.compiere.orm.Query;
@@ -62,8 +63,8 @@ public class ConvertLead extends SvrProcess {
 		lead.set_TrxName(get_TrxName());
 		if (!lead.isSalesLead() && lead.getC_BPartner_ID() != 0)
 			throw new AdempiereUserError("Lead already converted");
-		
-		MBPartner bp = MBPartner.getTemplate(getCtx(), Env.getAD_Client_ID(getCtx()));
+
+		I_C_BPartner bp = MBPartner.getTemplate(getCtx(), Env.getAD_Client_ID(getCtx()));
 		bp.set_TrxName(get_TrxName());
 		if ( !Util.isEmpty(lead.getBPName()) )
 			bp.setName(lead.getBPName());
