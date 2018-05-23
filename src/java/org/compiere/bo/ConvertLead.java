@@ -27,6 +27,7 @@ import org.compiere.crm.MBPartner;
 import org.compiere.crm.MBPartnerLocation;
 import org.compiere.crm.MLocation;
 import org.compiere.crm.MUser;
+import org.compiere.model.IProcessInfoParameter;
 import org.compiere.model.I_C_BPartner;
 import org.compiere.model.I_C_ContactActivity;
 import org.compiere.orm.PO;
@@ -168,8 +169,8 @@ public class ConvertLead extends SvrProcess {
 	@Override
 	protected void prepare() {
 		
-		ProcessInfoParameter[] paras = getParameter();
-		for (ProcessInfoParameter para : paras)
+		IProcessInfoParameter[] paras = getParameter();
+		for (IProcessInfoParameter para : paras)
 		{
 			String name = para.getParameterName();
 			if ( Util.isEmpty(name) )
