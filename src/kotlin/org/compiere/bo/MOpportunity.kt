@@ -15,37 +15,22 @@
  * or via info@compiere.org or http://www.idempiere.org/license.html           *
  *****************************************************************************/
 
-package org.compiere.bo;
+package org.compiere.bo
 
-import org.compiere.model.I_C_Order;
+import java.sql.ResultSet
+import java.util.*
 
-import java.sql.ResultSet;
-import java.util.Properties;
+class MOpportunity : X_C_Opportunity {
+    constructor(ctx : Properties, C_Opportunity_ID : Int, trxName : String? ) :super(ctx, C_Opportunity_ID, trxName)
+    constructor (ctx: Properties, rs: ResultSet, trxName:String? ) : super(ctx, rs, trxName)
 
-public class MOpportunity extends X_C_Opportunity {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9052544341602655427L;
-
-	public MOpportunity(Properties ctx, int C_Opportunity_ID, String trxName) {
-		super(ctx, C_Opportunity_ID, trxName);
-	}
-
-	public MOpportunity(Properties ctx, ResultSet rs, String trxName) {
-		super(ctx, rs, trxName);
-	}
-	
-	@Override
-	protected boolean beforeSave(boolean newRecord) {
-		if ( getC_Order_ID() > 0 )
-		{
-			I_C_Order order = getC_Order();
-			if ( order != null )
-				setOpportunityAmt(order.getGrandTotal());
-		}
-		return true;
-	}
+    override fun beforeSave(newRecord: Boolean): Boolean {
+        if (c_Order_ID > 0) {
+            val order = c_Order
+            if (order != null)
+                opportunityAmt = order.grandTotal
+        }
+        return true
+    }
 
 }

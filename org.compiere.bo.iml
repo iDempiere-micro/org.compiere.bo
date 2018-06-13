@@ -434,6 +434,28 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar:///home/david/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-email/1.5/e8e677c6362eba14ff3c476ba63ccb83132dbd52/commons-email-1.5.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/david/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-email/1.5/dbe951d1b89eb9472b4b2c8f618b8bc9783b6623/commons-email-1.5-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/david/.gradle/caches/modules-2/files-2.1/com.sun.mail/javax.mail/1.5.6/ab5daef2f881c42c8e280cbe918ec4d7fdfd7efe/javax.mail-1.5.6.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/david/.gradle/caches/modules-2/files-2.1/com.sun.mail/javax.mail/1.5.6/7a9a2f66d64bed834a9090c4e91e78892e2e67a1/javax.mail-1.5.6-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar:///home/david/.gradle/caches/modules-2/files-2.1/javax.activation/activation/1.1.1/485de3a253e23f645037828c07f1d7f1af40763a/activation-1.1.1.jar!/"/>
         </CLASSES>
         <JAVADOC/>
