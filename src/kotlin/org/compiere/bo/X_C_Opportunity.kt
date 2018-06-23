@@ -55,9 +55,9 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
     }
 
     @Throws(RuntimeException::class)
-    override fun getAD_User(): org.compiere.model.I_AD_User {
+    override fun getAD_User(): org.compiere.model.I_AD_User? {
         return MTable.get(ctx, org.compiere.model.I_AD_User.Table_Name)
-                .getPO(aD_User_ID, _TrxName) as org.compiere.model.I_AD_User
+                .getPO(aD_User_ID, _TrxName) as org.compiere.model.I_AD_User?
     }
 
     /** Set User/Contact.
@@ -75,7 +75,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return User within the system - Internal or Business Partner Contact
      */
     override fun getAD_User_ID(): Int {
-        return get_Value(I_C_Opportunity.COLUMNNAME_AD_User_ID) as Int ?: return 0
+        return get_Value(I_C_Opportunity.COLUMNNAME_AD_User_ID) as Int? ?: return 0
     }
 
     @Throws(RuntimeException::class)
@@ -99,13 +99,13 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return Identifies a Business Partner
      */
     override fun getC_BPartner_ID(): Int {
-        return get_Value(I_C_Opportunity.COLUMNNAME_C_BPartner_ID) as Int ?: return 0
+        return get_Value(I_C_Opportunity.COLUMNNAME_C_BPartner_ID) as Int? ?: return 0
     }
 
     @Throws(RuntimeException::class)
-    override fun getC_Campaign(): org.compiere.model.I_C_Campaign {
+    override fun getC_Campaign(): org.compiere.model.I_C_Campaign? {
         return MTable.get(ctx, org.compiere.model.I_C_Campaign.Table_Name)
-                .getPO(c_Campaign_ID, _TrxName) as org.compiere.model.I_C_Campaign
+                .getPO(c_Campaign_ID, _TrxName) as org.compiere.model.I_C_Campaign?
     }
 
     /** Set Campaign.
@@ -123,7 +123,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return Marketing Campaign
      */
     override fun getC_Campaign_ID(): Int {
-        return get_Value(I_C_Opportunity.COLUMNNAME_C_Campaign_ID) as Int ?: return 0
+        return get_Value(I_C_Opportunity.COLUMNNAME_C_Campaign_ID) as Int? ?: return 0
     }
 
     @Throws(RuntimeException::class)
@@ -147,7 +147,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return The Currency for this record
      */
     override fun getC_Currency_ID(): Int {
-        return get_Value(I_C_Opportunity.COLUMNNAME_C_Currency_ID) as Int ?: return 0
+        return get_Value(I_C_Opportunity.COLUMNNAME_C_Currency_ID) as Int? ?: return 0
     }
 
     /** Set Close Date.
@@ -161,8 +161,8 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
     /** Get Close Date.
      * @return Close Date
      */
-    override fun getCloseDate(): Timestamp {
-        return get_Value(I_C_Opportunity.COLUMNNAME_CloseDate) as Timestamp
+    override fun getCloseDate(): Timestamp? {
+        return get_Value(I_C_Opportunity.COLUMNNAME_CloseDate) as Timestamp?
     }
 
     /** Set Comments.
@@ -176,8 +176,8 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
     /** Get Comments.
      * @return Comments or additional information
      */
-    override fun getComments(): String {
-        return get_Value(I_C_Opportunity.COLUMNNAME_Comments) as String
+    override fun getComments(): String? {
+        return get_Value(I_C_Opportunity.COLUMNNAME_Comments) as String?
     }
 
     /** Set Sales Opportunity.
@@ -194,7 +194,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return Sales Opportunity
      */
     override fun getC_Opportunity_ID(): Int {
-        return get_Value(I_C_Opportunity.COLUMNNAME_C_Opportunity_ID) as Int ?: return 0
+        return get_Value(I_C_Opportunity.COLUMNNAME_C_Opportunity_ID) as Int? ?: return 0
     }
 
     /** Set C_Opportunity_UU.
@@ -212,7 +212,8 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
     }
 
     @Throws(RuntimeException::class)
-    override fun getC_Order(): org.compiere.model.I_C_Order {
+    override fun getC_Order(): org.compiere.model.I_C_Order? {
+        if (c_Order_ID==0) return null;
         return MTable.get(ctx, org.compiere.model.I_C_Order.Table_Name)
                 .getPO(c_Order_ID, _TrxName) as org.compiere.model.I_C_Order
     }
@@ -271,7 +272,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return Stages of the sales process
      */
     override fun getC_SalesStage_ID(): Int {
-        return get_Value(I_C_Opportunity.COLUMNNAME_C_SalesStage_ID) as Int ?: return 0
+        return get_Value(I_C_Opportunity.COLUMNNAME_C_SalesStage_ID) as Int? ?: return 0
     }
 
     /** Set Description.
@@ -285,8 +286,8 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
     /** Get Description.
      * @return Optional short description of the record
      */
-    override fun getDescription(): String {
-        return get_Value(I_C_Opportunity.COLUMNNAME_Description) as String
+    override fun getDescription(): String? {
+        return get_Value(I_C_Opportunity.COLUMNNAME_Description) as String?
     }
 
     /** Set Document No.
@@ -376,7 +377,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return Sales Representative or Company Agent
      */
     override fun getSalesRep_ID(): Int {
-        return get_Value(I_C_Opportunity.COLUMNNAME_SalesRep_ID) as Int ?: return 0
+        return get_Value(I_C_Opportunity.COLUMNNAME_SalesRep_ID) as Int? ?: return 0
     }
 
     /** Set Weighted Amount.
