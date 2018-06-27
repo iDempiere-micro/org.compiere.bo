@@ -56,6 +56,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
 
     @Throws(RuntimeException::class)
     override fun getAD_User(): org.compiere.model.I_AD_User? {
+        if (aD_User_ID==0) return null;
         return MTable.get(ctx, org.compiere.model.I_AD_User.Table_Name)
                 .getPO(aD_User_ID, _TrxName) as org.compiere.model.I_AD_User?
     }
@@ -104,6 +105,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
 
     @Throws(RuntimeException::class)
     override fun getC_Campaign(): org.compiere.model.I_C_Campaign? {
+        if (c_Campaign_ID==0) return null;
         return MTable.get(ctx, org.compiere.model.I_C_Campaign.Table_Name)
                 .getPO(c_Campaign_ID, _TrxName) as org.compiere.model.I_C_Campaign?
     }
@@ -248,7 +250,7 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
      * @return Cost information
      */
     override fun getCost(): BigDecimal {
-        return get_Value(I_C_Opportunity.COLUMNNAME_Cost) as BigDecimal ?: return Env.ZERO
+        return get_Value(I_C_Opportunity.COLUMNNAME_Cost) as BigDecimal? ?: return Env.ZERO
     }
 
     @Throws(RuntimeException::class)
@@ -357,7 +359,8 @@ open class X_C_Opportunity : PO, I_C_Opportunity, I_Persistent
     }
 
     @Throws(RuntimeException::class)
-    override fun getSalesRep(): org.compiere.model.I_AD_User {
+    override fun getSalesRep(): org.compiere.model.I_AD_User? {
+        if (salesRep_ID==0) return null;
         return MTable.get(ctx, org.compiere.model.I_AD_User.Table_Name)
                 .getPO(salesRep_ID, _TrxName) as org.compiere.model.I_AD_User
     }

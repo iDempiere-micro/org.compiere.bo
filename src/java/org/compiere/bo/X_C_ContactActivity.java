@@ -60,6 +60,12 @@ public class X_C_ContactActivity extends PO implements I_C_ContactActivity, I_Pe
       super (ctx, rs, trxName);
     }
 
+	/** Load Constructor with rename */
+	public X_C_ContactActivity (Properties ctx, ResultSet rs, String trxName, String columnNamePrefix )
+	{
+		super (ctx, rs, trxName, columnNamePrefix);
+	}
+
     /** AccessLevel
       * @return 3 - Client - Org 
       */
