@@ -1,32 +1,25 @@
 package org.compiere.bo
 
-import org.compiere.model.I_C_Opportunity
-import org.compiere.orm.DefaultModelFactory
-import org.compiere.orm.IModelFactory
+import org.compiere.crm.SvrProcessBase
 import org.compiere.process.SvrProcess
 import org.compiere.product.MCurrency
 import org.idempiere.common.util.DB
-import org.idempiere.common.util.Env
+import java.io.Serializable
 import java.sql.Timestamp
 
-class EnsureBO : SvrProcess() {
-    var businessPartnerId : Int = 0
-    var AD_CLIENT_ID = 0 //AD_Client_ID
-    var AD_ORG_ID = 0 //AD_Org_ID
+class EnsureBO : SvrProcessBase() {
+    var businessPartnerId: Int = 0
 
     override fun prepare() {
+        super.prepare()
         for (para in parameter) {
-            if ( para.parameterName == "BusinessPartnerId" ) {
+            if (para.parameterName == "BusinessPartnerId") {
                 businessPartnerId = para.parameterAsInt
-            } else if ( para.parameterName == "AD_Client_ID" ) {
-                AD_CLIENT_ID = para.parameterAsInt
-            } else if ( para.parameterName == "AD_Org_ID" ) {
-                AD_ORG_ID = para.parameterAsInt
-            } else println( "unknown parameter ${para.parameterName}" )
+            }
         }
     }
 
-    private fun getBoId() : Int {
+    private fun getBoId(): Int {
         val sql =
                 """
 select * from adempiere.C_Opportunity
@@ -46,17 +39,19 @@ order by 1 desc
 
         var oppId = 0
 
-        while(rs.next()) {
+        while (rs.next()) {
             oppId = rs.getInt("c_opportunity_id")
         }
+
+        cnn.close()
+
         return oppId
     }
 
-    override fun doIt(): String {
-        val pi = processInfo
+    override fun getResult(): Serializable {
         var oppId = getBoId()
-        if ( oppId <= 0 ) {
-            val opp = MOpportunity( ctx, 0, null )
+        if (oppId <= 0) {
+            val opp = MOpportunity(ctx, 0, null)
             opp.expectedCloseDate = Timestamp(System.currentTimeMillis())
             opp.c_BPartner_ID = businessPartnerId
             opp.opportunityAmt = 0.toBigDecimal()
@@ -68,9 +63,6 @@ order by 1 desc
             oppId = getBoId()
         }
 
-        pi.serializableObject = oppId
-
-        return "oppId:$oppId"
+        return oppId
     }
-
 }
