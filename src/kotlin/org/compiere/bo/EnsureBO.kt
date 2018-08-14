@@ -4,8 +4,11 @@ import org.compiere.crm.SvrProcessBase
 import org.compiere.process.SvrProcess
 import org.compiere.product.MCurrency
 import org.idempiere.common.util.DB
+import software.hsharp.business.models.IDTOReady
 import java.io.Serializable
 import java.sql.Timestamp
+
+data class EnsureBOResult( val OpportunityId: Int ) : IDTOReady
 
 class EnsureBO : SvrProcessBase() {
     var businessPartnerId: Int = 0
@@ -48,7 +51,7 @@ order by 1 desc
         return oppId
     }
 
-    override fun getResult(): Serializable {
+    override fun getResult(): IDTOReady {
         var oppId = getBoId()
         if (oppId <= 0) {
             val opp = MOpportunity(ctx, 0, null)
@@ -63,6 +66,6 @@ order by 1 desc
             oppId = getBoId()
         }
 
-        return oppId
+        return EnsureBOResult( oppId )
     }
 }
