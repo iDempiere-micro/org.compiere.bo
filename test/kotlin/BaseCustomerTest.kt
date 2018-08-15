@@ -1,23 +1,18 @@
 import org.compiere.bo.CustomerProcessBase
 import org.compiere.bo.CustomerProcessBaseResult
-import org.compiere.bo.UpdateCustomer
 import org.compiere.crm.MBPartner
-import org.compiere.process.ProcessInfo
-import org.compiere.process.ProcessInfoParameter
-import org.compiere.process.ProcessUtil
 import org.idempiere.common.db.CConnection
 import org.idempiere.common.db.Database
 import org.idempiere.common.util.CLogger
 import org.idempiere.common.util.DB
 import org.idempiere.common.util.Env
 import org.idempiere.common.util.Ini
-import org.idempiere.common.util.Trx
 import org.junit.Assert
 import pg.org.compiere.db.DB_PostgreSQL
 import java.util.Properties
 import java.util.Random
 
-abstract class BaseCustomerTest {
+abstract class BaseCustomerTest: BaseProcessTest() {
     abstract fun preparePartnerId(ctx: Properties, AD_CLIENT_ID: Int): Int?
     abstract fun getProcess(): CustomerProcessBase
     abstract fun runFinallyCleanup()
@@ -49,14 +44,6 @@ abstract class BaseCustomerTest {
 
         val bPartnerId = preparePartnerId(ctx, AD_CLIENT_ID)
 
-        val ad_Client_ID = Env.getAD_Client_ID(ctx)
-        val ad_Org_ID = Env.getAD_Org_ID(ctx)
-        val ad_User_ID = Env.getAD_User_ID(ctx)
-        val parameters: MutableList<ProcessInfoParameter> = mutableListOf(
-            ProcessInfoParameter("AD_Client_ID", ad_Client_ID.toBigDecimal(), null, null, null),
-            ProcessInfoParameter("AD_Org_ID", ad_Org_ID.toBigDecimal(), null, null, null),
-            ProcessInfoParameter("AD_User_ID", ad_User_ID.toBigDecimal(), null, null, null)
-        )
         val bodyParams = arrayOf(
             "id" to if (bPartnerId==null) {0} else {bPartnerId},
             // legal name
@@ -106,21 +93,11 @@ abstract class BaseCustomerTest {
             Pair( "locationCountryId", 166 ), // country_id "CZ"
             Pair( "legalCountryId", 166 ) // country_id "CZ"
         )
-        parameters
-            .addAll(3, bodyParams.map { ProcessInfoParameter(it.first, it.second, null, null, null) })
-
-        val processInfo = ProcessInfo("Execute Java Process", 0)
-        processInfo.aD_Client_ID = ad_Client_ID
-        processInfo.aD_User_ID = ad_User_ID
-        processInfo.parameter = parameters.toTypedArray()
-        processInfo.className = UpdateCustomer::class.java.toString()
-        val success = ProcessUtil.startJavaProcess(ctx, processInfo, null, false, null, getProcess())
-        val processResult = processInfo.serializableObject as CustomerProcessBaseResult
+        val processResult = runProcess(DB_PostgreSQL(), getProcess(), bodyParams) as CustomerProcessBaseResult
 
         val newPartner2 = MBPartner.get( Env.getCtx(), processResult.C_BPartner_Id )
 
         try {
-            Assert.assertTrue(success)
             Assert.assertEquals(bodyParams.first { it.first == "bpName" }.second, newPartner2.name)
             Assert.assertEquals(bodyParams.first { it.first == "discount" }.second.toString(), newPartner2.flatDiscount.toString())
             Assert.assertEquals(bodyParams.first { it.first == "description" }.second, newPartner2.description)
